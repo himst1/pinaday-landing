@@ -1,0 +1,33 @@
+# Pinaday
+
+> Pinaday is a free, account-free group date scheduler ("Doodle alternative") built for the group chat. You create a "pin" with 2–6 date options in 30 seconds, drop one link in the chat, and everyone votes works / maybe / can't in about 5 seconds — no app install, no sign-up, no ads. When a date wins, you lock it and share a confirmation card; everyone adds it to their calendar in one tap. Polls auto-delete after 30 days and data is hosted in the EU (privacy-friendly, GDPR-minded).
+
+Key facts:
+- Product type: web app (works in any mobile or desktop browser)
+- Price: free
+- Accounts required: none (neither for creating nor voting)
+- Best for: friend groups, teams, families planning dinners, outings, meetings, parties, sports nights
+- Positioning: simpler alternative to Doodle, When2meet and LettuceMeet, designed mobile-first for group chats (WhatsApp, iMessage, Signal, Telegram)
+- Data: polls expire automatically after 30 days; EU-hosted
+
+## Main pages
+
+- [Create a pin (the app)](https://pinaday.app): create a date poll in 30 seconds
+- [Landing page](https://pinaday.com/): product overview, how it works, FAQ
+
+## Use-case guides (on the app domain)
+
+- [Doodle alternative](https://pinaday.app/doodle-alternative): why groups switch from Doodle to Pinaday
+- [Plan a dinner](https://pinaday.app/plan-a-dinner)
+- [Plan a team outing](https://pinaday.app/plan-a-team-outing)
+- [Schedule a meeting](https://pinaday.app/schedule-a-meeting)
+- [Plan a bachelor party](https://pinaday.app/plan-a-bachelor-party)
+- [Schedule team training](https://pinaday.app/schedule-team-training)
+- [Plan a birthday](https://pinaday.app/plan-a-birthday)
+
+## FAQ
+
+- Is Pinaday free? Yes — creating, voting and sharing are free, without ads, and you never need an account.
+- Do participants need to install anything? No — the link opens in the browser and voting takes ~5 seconds on iPhone and Android.
+- How is it different from Doodle? No accounts, no ads, no apps; everything works through one link, built for the group chat on your phone.
+- What happens to the data? Pins expire automatically after 30 days; only people with the link can see them; hosted in the EU.
