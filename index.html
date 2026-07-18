@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Pinaday — pin a date with your people, in 10 seconds</title>
+<meta name="description" content="One link in the group chat. Everyone votes in 5 seconds. No app, no account, no 47 messages. Free date polls that actually get answered.">
+<link rel="canonical" href="https://pinaday.com/">
+<meta property="og:title" content="Pinaday — pin a date in 10 seconds">
+<meta property="og:description" content="One link in the group chat. Everyone votes in 5 seconds. No app, no account.">
+<meta property="og:url" content="https://pinaday.com/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FAF3E7'/%3E%3Cpath d='M32 10c8.3 0 15 6.7 15 15 0 11.3-15 29-15 29S17 36.3 17 25c0-8.3 6.7-15 15-15Z' fill='%23FF4A2D' stroke='%231B1610' stroke-width='3.5'/%3E%3Ccircle cx='32' cy='25' r='6' fill='%23FAF3E7' stroke='%231B1610' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is Pinaday free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Creating pins, voting and sharing is completely free, without ads. You never need an account."}},
+{"@type":"Question","name":"Do my friends need to install anything?","acceptedAnswer":{"@type":"Answer","text":"No. The link opens straight in the browser and voting takes about 5 seconds — on iPhone and Android alike."}},
+{"@type":"Question","name":"How is it different from Doodle?","acceptedAnswer":{"@type":"Answer","text":"No accounts, no ads, no apps. Everything works through one link, built for the group chat on your phone."}},
+{"@type":"Question","name":"What happens to my data?","acceptedAnswer":{"@type":"Answer","text":"Pins expire automatically after 30 days and only people with the link can see them. Hosted in the EU."}}]}
+</script>
+<style>
+  :root{
+    --paper:#FAF3E7; --card:#FFFDF7; --ink:#1B1610; --ink-soft:#6E6357;
+    --red:#FF4A2D; --red-deep:#D93A20; --yes:#1F9E5F; --yes-soft:#E2F4E9;
+    --maybe:#E09A2D; --maybe-soft:#FBF0DA; --no:#C9402E; --no-soft:#F8E4E0;
+    --line:#EADFCC;
+    --shadow:0 2px 0 rgba(27,22,16,.08), 0 14px 34px -14px rgba(27,22,16,.22);
+    --display:'Bricolage Grotesque',sans-serif; --body:'Schibsted Grotesk',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body); color:var(--ink); background:var(--paper);
+    background-image:radial-gradient(rgba(27,22,16,.055) 1.1px, transparent 1.1px);
+    background-size:22px 22px; line-height:1.5; overflow-x:hidden;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+
+  /* reveal on scroll */
+  .rv{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1)}
+  .rv.in{opacity:1; transform:none}
+
+  /* ===== nav ===== */
+  nav{display:flex; align-items:center; gap:10px; padding:22px 0}
+  nav b{font-family:var(--display); font-weight:800; font-size:1.35rem; letter-spacing:-.02em}
+  nav b i{font-style:normal; color:var(--red)}
+  nav .cta-sm{
+    margin-left:auto; font-family:var(--display); font-weight:800; font-size:.95rem;
+    color:#fff; background:var(--red); border:2px solid var(--ink); border-radius:99px;
+    padding:10px 20px; text-decoration:none; box-shadow:0 3px 0 var(--ink); transition:transform .12s, box-shadow .12s;
+  }
+  nav .cta-sm:active{transform:translateY(2px); box-shadow:0 1px 0 var(--ink)}
+
+  /* ===== hero ===== */
+  .hero{display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center; padding:56px 0 72px}
+  @media (max-width:860px){.hero{grid-template-columns:1fr; padding:32px 0 48px}}
+  h1{
+    font-family:var(--display); font-weight:800; font-size:clamp(2.6rem,6vw,4.2rem);
+    line-height:1.02; letter-spacing:-.035em; margin-bottom:20px;
+  }
+  h1 .hl{color:var(--red); position:relative}
+  .hero p.sub{font-size:1.2rem; color:var(--ink-soft); max-width:44ch; margin-bottom:28px}
+  .cta{
+    display:inline-flex; align-items:center; gap:12px;
+    font-family:var(--display); font-weight:800; font-size:1.25rem; letter-spacing:-.01em;
+    color:#fff; background:var(--red); border:2px solid var(--ink); border-radius:18px;
+    padding:18px 32px; text-decoration:none; box-shadow:0 4px 0 var(--ink);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .cta:active{transform:translateY(3px); box-shadow:0 1px 0 var(--ink)}
+  .micro{font-size:.9rem; color:var(--ink-soft); margin-top:14px}
+  .micro b{color:var(--ink)}
+
+  /* phone mockup */
+  .phone{
+    width:min(320px,88vw); margin:0 auto; background:var(--paper);
+    border:3px solid var(--ink); border-radius:34px; padding:22px 18px 26px;
+    box-shadow:var(--shadow); position:relative; transform:rotate(2deg);
+  }
+  .phone .ptitle{font-family:var(--display); font-weight:800; font-size:1.3rem; margin-bottom:4px}
+  .phone .pnote{font-size:.78rem; color:var(--ink-soft); margin-bottom:14px}
+  .vc{display:flex; align-items:center; gap:10px; background:var(--card); border:2px solid var(--ink);
+    border-radius:16px; padding:10px; margin-bottom:9px; box-shadow:0 2px 0 rgba(27,22,16,.08)}
+  .vc.y{background:var(--yes-soft)} .vc.m{background:var(--maybe-soft)} .vc.n{background:var(--no-soft)}
+  .chip{flex:0 0 auto; width:46px; text-align:center; background:var(--paper); border:2px solid var(--ink); border-radius:11px; padding:4px 0}
+  .chip .d{display:block; font-size:.55rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--red)}
+  .chip .n{display:block; font-family:var(--display); font-weight:800; font-size:1.1rem; line-height:1.1}
+  .vc .t{font-family:var(--display); font-weight:700; font-size:.9rem}
+  .vc .s{font-size:.72rem; color:var(--ink-soft)}
+  .st{margin-left:auto; width:36px; height:36px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:1rem; color:#fff; border:2px solid var(--ink); transition:background .25s, color .25s, border .25s}
+  .st.y{background:var(--yes)} .st.m{background:var(--maybe)} .st.n{background:var(--no)}
+  .st.e{background:var(--paper); color:#B7AB9B; border:2px dashed rgba(27,22,16,.35)}
+  .st.pop{animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+  @keyframes pop{from{transform:scale(.25) rotate(-12deg)} to{transform:scale(1) rotate(0)}}
+  .vc{cursor:pointer; transition:background .35s, transform .12s; user-select:none}
+  .vc:active{transform:scale(.98)}
+  .vc.best{box-shadow:0 0 0 3px rgba(31,158,95,.4), 0 2px 0 rgba(27,22,16,.08)}
+  .pnote{transition:opacity .25s}
+  .pnote.fade{opacity:0}
+  .pnote a{color:var(--red-deep); font-weight:700; text-decoration:none}
+  .stamp{
+    position:absolute; top:-14px; right:-18px; transform:rotate(8deg);
+    background:var(--yes); color:#fff; font-family:var(--display); font-weight:800; font-size:.8rem;
+    letter-spacing:.1em; padding:7px 14px; border:2px solid var(--ink); border-radius:10px; box-shadow:var(--shadow);
+    opacity:0; pointer-events:none; transition:opacity .3s;
+  }
+  .stamp.show{opacity:1; animation:stampIn .45s cubic-bezier(.2,1.6,.4,1)}
+  @keyframes stampIn{from{opacity:0; transform:rotate(8deg) scale(2.4)} to{opacity:1; transform:rotate(8deg) scale(1)}}
+
+  /* ===== strip ===== */
+  .strip{display:flex; justify-content:center; gap:14px; flex-wrap:wrap; padding:0 0 64px}
+  .strip span{
+    font-weight:700; font-size:.92rem; background:var(--card); border:2px solid var(--ink);
+    border-radius:99px; padding:9px 18px; box-shadow:0 2px 0 rgba(27,22,16,.1);
+  }
+
+  h2{font-family:var(--display); font-weight:800; font-size:clamp(1.7rem,3.5vw,2.4rem); letter-spacing:-.025em; margin-bottom:12px}
+  .lead{color:var(--ink-soft); font-size:1.05rem; max-width:56ch; margin-bottom:36px}
+
+  /* ===== steps ===== */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; padding-bottom:80px}
+  @media (max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--card); border:2px solid var(--ink); border-radius:22px; padding:26px 22px; box-shadow:var(--shadow); position:relative}
+  .step .num{
+    position:absolute; top:-16px; left:18px; width:34px; height:34px; display:flex; align-items:center; justify-content:center;
+    background:var(--red); color:#fff; font-family:var(--display); font-weight:800;
+    border:2px solid var(--ink); border-radius:11px; transform:rotate(-4deg);
+  }
+  .step h3{font-family:var(--display); font-weight:800; font-size:1.2rem; margin:8px 0 8px}
+  .step p{color:var(--ink-soft); font-size:.95rem}
+
+  /* ===== showcase ===== */
+  .showcase{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; padding-bottom:80px}
+  @media (max-width:860px){.showcase{grid-template-columns:1fr}}
+  .dark{
+    background:var(--ink); border-radius:26px; padding:30px 26px; color:var(--paper);
+    box-shadow:var(--shadow); position:relative; overflow:hidden; max-width:380px; transform:rotate(-1.5deg); margin:0 auto;
+  }
+  .dark::before{content:""; position:absolute; inset:0; background:radial-gradient(rgba(250,243,231,.09) 1.1px, transparent 1.1px); background-size:18px 18px}
+  .dark .b{position:relative; font-family:var(--display); font-weight:800; font-size:1.7rem; line-height:1.08; margin:14px 0 4px}
+  .dark .b em{font-style:normal; color:#FFB49F}
+  .dark .badge{position:relative; display:inline-block; background:var(--yes); border-radius:99px; padding:7px 14px; font-weight:800; font-size:.9rem; color:#fff; margin-top:10px; transform:rotate(-1.5deg)}
+  .dark .names{position:relative; margin-top:14px; font-size:.82rem; opacity:.7}
+  .dark .url{position:relative; margin-top:16px; font-family:var(--display); font-weight:800; font-size:.95rem; color:var(--red)}
+  .dark .brand-s{position:relative; display:flex; align-items:center; gap:7px; font-family:var(--display); font-weight:800; font-size:.9rem}
+  .dark .brand-s i{font-style:normal; color:var(--red)}
+
+  /* ===== usecases ===== */
+  .cases{display:flex; flex-wrap:wrap; gap:12px; padding-bottom:80px}
+  .case{
+    font-weight:700; font-size:.98rem; color:var(--ink); text-decoration:none;
+    background:var(--card); border:2px solid var(--ink); border-radius:16px; padding:13px 20px;
+    box-shadow:0 3px 0 rgba(27,22,16,.15); transition:transform .12s, box-shadow .12s;
+  }
+  .case:hover{transform:translateY(-2px); box-shadow:0 5px 0 rgba(27,22,16,.2)}
+  .case:active{transform:translateY(1px); box-shadow:0 1px 0 rgba(27,22,16,.2)}
+
+  /* ===== faq ===== */
+  .faq{padding-bottom:80px; max-width:680px}
+  .faq details{background:var(--card); border:2px solid var(--ink); border-radius:16px; margin-bottom:12px; box-shadow:0 2px 0 rgba(27,22,16,.1); overflow:hidden}
+  .faq summary{font-family:var(--display); font-weight:700; font-size:1.05rem; padding:16px 18px; cursor:pointer; list-style:none; display:flex; align-items:center}
+  .faq summary::after{content:"+"; margin-left:auto; font-weight:800; color:var(--red); font-size:1.3rem}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{padding:0 18px 16px; color:var(--ink-soft)}
+
+  /* ===== final cta ===== */
+  .final{
+    text-align:center; background:var(--ink); color:var(--paper); border-radius:30px;
+    padding:64px 24px; margin-bottom:56px; position:relative; overflow:hidden;
+  }
+  .final::before{content:""; position:absolute; inset:0; background:radial-gradient(rgba(250,243,231,.08) 1.1px, transparent 1.1px); background-size:20px 20px}
+  .final h2{position:relative; color:var(--paper)}
+  .final p{position:relative; opacity:.75; margin-bottom:26px}
+  .final .cta{position:relative}
+
+  footer{padding:0 0 40px; text-align:center; color:var(--ink-soft); font-size:.85rem}
+  footer a{color:var(--red-deep); font-weight:700; text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <svg width="30" height="30" viewBox="0 0 26 26" fill="none"><path d="M13 2.5c3.6 0 6.5 2.9 6.5 6.5 0 4.9-6.5 14-6.5 14S6.5 13.9 6.5 9c0-3.6 2.9-6.5 6.5-6.5Z" fill="#FF4A2D" stroke="#1B1610" stroke-width="2"/><circle cx="13" cy="9" r="2.6" fill="#FAF3E7" stroke="#1B1610" stroke-width="1.6"/></svg>
+    <b>pin<i>a</i>day</b>
+    <a class="cta-sm" href="https://pinaday.app">Create a pin</a>
+  </nav>
+
+  <section class="hero">
+    <div class="rv">
+      <h1>Pin a date with<br>your <span class="hl">people.</span></h1>
+      <p class="sub">One link in the group chat. Everyone votes in 5 seconds. No app, no account, no 47 messages about who can make Thursday.</p>
+      <a class="cta" href="https://pinaday.app">
+        <svg width="22" height="22" viewBox="0 0 26 26" fill="none"><path d="M13 2.5c3.6 0 6.5 2.9 6.5 6.5 0 4.9-6.5 14-6.5 14S6.5 13.9 6.5 9c0-3.6 2.9-6.5 6.5-6.5Z" fill="#fff" stroke="#1B1610" stroke-width="2"/><circle cx="13" cy="9" r="2.6" fill="#FF4A2D"/></svg>
+        Create a pin — it's free
+      </a>
+      <p class="micro">Takes <b>30 seconds</b> · your friends vote in <b>5</b></p>
+    </div>
+    <div class="rv">
+      <div class="phone" id="demo" aria-label="Live demo of a Pinaday poll">
+        <span class="stamp" id="stamp">PINNED ✓</span>
+        <div class="ptitle">Bowling night 🎳</div>
+        <div class="pnote" id="pnote">Dropped in the group chat…</div>
+        <div class="vc" data-i="0" role="button" tabindex="0" aria-label="Friday evening — tap to vote">
+          <span class="chip"><span class="d">Fri</span><span class="n">24</span></span>
+          <span><span class="t">Friday evening</span><br><span class="s">19:30 · <span class="cnt">1</span> in so far</span></span>
+          <span class="st e">·</span>
+        </div>
+        <div class="vc" data-i="1" role="button" tabindex="0" aria-label="Saturday afternoon — tap to vote">
+          <span class="chip"><span class="d">Sat</span><span class="n">25</span></span>
+          <span><span class="t">Saturday afternoon</span><br><span class="s">16:00 · <span class="cnt">1</span> in so far</span></span>
+          <span class="st e">·</span>
+        </div>
+        <div class="vc" data-i="2" role="button" tabindex="0" aria-label="Thursday evening — tap to vote">
+          <span class="chip"><span class="d">Thu</span><span class="n">30</span></span>
+          <span><span class="t">Thursday evening</span><br><span class="s">20:00 · <span class="cnt">0</span> in so far</span></span>
+          <span class="st e">·</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip rv">
+    <span>🚫 No app</span><span>🙅 No account</span><span>🆓 Free</span><span>🇪🇺 EU-hosted</span><span>🗑️ Auto-deletes in 30 days</span>
+  </div>
+
+  <section>
+    <h2 class="rv">How it works</h2>
+    <p class="lead rv">Three steps between "we should hang out" and a date in everyone's calendar.</p>
+    <div class="steps">
+      <div class="step rv"><span class="num">1</span><h3>Create the pin</h3><p>A title and 2–6 date options. Done in 30 seconds, no sign-up — you get one shareable link.</p></div>
+      <div class="step rv"><span class="num">2</span><h3>Drop it in the chat</h3><p>Everyone taps works / maybe / can't straight from the browser. You watch the votes come in live.</p></div>
+      <div class="step rv"><span class="num">3</span><h3>Pin the winner</h3><p>Lock the best date, share the confirmation card back into the chat, and everyone adds it to their calendar in one tap.</p></div>
+    </div>
+  </section>
+
+  <section class="showcase">
+    <div class="rv">
+      <h2>The date announces itself.</h2>
+      <p class="lead" style="margin-bottom:0">When you pin the winning date, Pinaday generates a share card for the group chat or your story — so nobody can claim they didn't know. That's the whole point: the plan doesn't leak away in scroll-back.</p>
+    </div>
+    <div class="rv">
+      <div class="dark">
+        <div class="brand-s"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M13 2.5c3.6 0 6.5 2.9 6.5 6.5 0 4.9-6.5 14-6.5 14S6.5 13.9 6.5 9c0-3.6 2.9-6.5 6.5-6.5Z" fill="#FF4A2D" stroke="#FAF3E7" stroke-width="2"/><circle cx="13" cy="9" r="2.6" fill="#FAF3E7"/></svg> pin<i>a</i>day</div>
+        <div class="b">Bowling night 🎳<br><em>Friday 24 July · 19:30</em></div>
+        <span class="badge">✓ 5 of 6 are in</span>
+        <div class="names">Sanne · Jesse · Mila · Daan · Leon</div>
+        <div class="url">pinaday.app/p/x7Kp2</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="rv">Whatever you're planning</h2>
+    <p class="lead rv">Start with a prefilled pin — one tap and you're halfway there.</p>
+    <div class="cases rv">
+      <a class="case" href="https://pinaday.app/new?title=Dinner%20%F0%9F%8D%9D">🍝 Dinner with friends</a>
+      <a class="case" href="https://pinaday.app/new?title=Team%20outing%20%F0%9F%8E%B3">🎳 Team outing</a>
+      <a class="case" href="https://pinaday.app/new?title=Meeting%20%F0%9F%93%8B">📋 Meeting</a>
+      <a class="case" href="https://pinaday.app/new?title=Bachelor%20party%20%F0%9F%8E%89">🎉 Bachelor party</a>
+      <a class="case" href="https://pinaday.app/new?title=Padel%20%F0%9F%8E%BE">🎾 Padel / training</a>
+      <a class="case" href="https://pinaday.app/new?title=My%20birthday%20%F0%9F%8E%82">🎂 Birthday</a>
+      <a class="case" href="https://pinaday.app/new?title=Game%20night%20%F0%9F%8E%B2">🎲 Game night</a>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h2 class="rv">Frequently asked questions</h2>
+    <details class="rv"><summary>Is Pinaday free?</summary><p>Yes. Creating pins, voting and sharing is completely free, without ads. You never need an account.</p></details>
+    <details class="rv"><summary>Do my friends need to install anything?</summary><p>No. The link opens straight in the browser and voting takes about 5 seconds — on iPhone and Android alike.</p></details>
+    <details class="rv"><summary>How is it different from Doodle?</summary><p>No accounts, no ads, no apps. Everything works through one link, built for the group chat on your phone.</p></details>
+    <details class="rv"><summary>What happens to my data?</summary><p>Pins expire automatically after 30 days and only people with the link can see them. Hosted in the EU.</p></details>
+  </section>
+
+  <section class="final rv">
+    <h2>Stop debating. Start pinning.</h2>
+    <p>The next "when works for everyone?" takes 10 seconds instead of 47 messages.</p>
+    <a class="cta" href="https://pinaday.app">Create your first pin →</a>
+  </section>
+
+  <footer>
+    <p>📌 <a href="https://pinaday.app">pinaday.app</a> — made for group chats everywhere · <span id="yr"></span></p>
+  </footer>
+</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ===== Live hero demo (v1.1) ===== */
+  (function () {
+    const cards = [...document.querySelectorAll('#demo .vc')];
+    const states = cards.map(c => c.querySelector('.st'));
+    const counts = cards.map(c => c.querySelector('.cnt'));
+    const note = document.getElementById('pnote');
+    const stamp = document.getElementById('stamp');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timers = [], userMode = false;
+
+    function setNote(html) {
+      note.classList.add('fade');
+      setTimeout(() => { note.innerHTML = html; note.classList.remove('fade'); }, 220);
+    }
+    function setState(i, cls, icon) {
+      const st = states[i];
+      st.className = 'st ' + cls;
+      st.textContent = icon;
+      if (cls !== 'e') { st.classList.add('pop'); setTimeout(() => st.classList.remove('pop'), 500); }
+      cards[i].classList.remove('y', 'm', 'n');
+      if (cls === 'y') cards[i].classList.add('y');
+      if (cls === 'm') cards[i].classList.add('m');
+      if (cls === 'n') cards[i].classList.add('n');
+    }
+    function reset() {
+      [0, 1, 2].forEach(i => { setState(i, 'e', '·'); cards[i].classList.remove('best'); });
+      counts[0].textContent = '1'; counts[1].textContent = '1'; counts[2].textContent = '0';
+      stamp.classList.remove('show');
+    }
+    function finalState() {
+      setState(0, 'y', '✓'); setState(1, 'm', '~'); setState(2, 'n', '✕');
+      counts[0].textContent = '4'; counts[1].textContent = '2'; counts[2].textContent = '1';
+      cards[0].classList.add('best');
+      stamp.classList.add('show');
+      note.innerHTML = 'Sanne, Jesse &amp; Mila already voted — you haven’t 👀';
+    }
+    function play() {
+      if (userMode) return;
+      reset();
+      const steps = [
+        [600,  () => setNote('Dropped in the group chat…')],
+        [1500, () => { setState(0, 'y', '✓'); counts[0].textContent = '2'; setNote('Sanne can do Friday ✓'); }],
+        [3000, () => { setState(1, 'm', '~'); counts[1].textContent = '2'; setNote('Jesse says maybe Saturday ~'); }],
+        [4400, () => { setState(2, 'n', '✕'); counts[2].textContent = '1'; setNote('Mila can’t do Thursday ✕'); }],
+        [5700, () => { counts[0].textContent = '4'; cards[0].classList.add('best'); setNote('Friday is winning 🏆'); }],
+        [7000, () => { stamp.classList.add('show'); setNote('Pinned! Everyone gets the card 📌'); }],
+        [10000, play],
+      ];
+      timers = steps.map(([t, fn]) => setTimeout(fn, t));
+    }
+    function takeOver() {
+      if (userMode) return;
+      userMode = true;
+      timers.forEach(clearTimeout);
+      stamp.classList.remove('show');
+      cards.forEach(c => c.classList.remove('best'));
+      setNote('Your turn — <a href="https://pinaday.app">now try the real thing →</a>');
+    }
+    const cycle = ['e', 'y', 'm', 'n'];
+    const icons = { e: '·', y: '✓', m: '~', n: '✕' };
+    cards.forEach((c, i) => {
+      const go = () => {
+        takeOver();
+        const cur = cycle.indexOf(states[i].className.split(' ')[1]) ?? 0;
+        const next = cycle[(cur + 1) % cycle.length];
+        setState(i, next, icons[next]);
+      };
+      c.addEventListener('click', go);
+      c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+
+    if (reduced) { finalState(); } else { play(); }
+  })();
+</script>
+</body>
+</html>
