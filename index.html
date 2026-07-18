@@ -128,6 +128,14 @@
   }
   .stamp.show{opacity:1; animation:stampIn .45s cubic-bezier(.2,1.6,.4,1)}
   @keyframes stampIn{from{opacity:0; transform:rotate(8deg) scale(2.4)} to{opacity:1; transform:rotate(8deg) scale(1)}}
+  /* Reduced motion: the demo story still plays (state changes are content),
+     but without scale/spring effects. */
+  @media (prefers-reduced-motion: reduce){
+    .vb.flash{animation:none}
+    .stamp.show{animation:none}
+    .rv{opacity:1; transform:none; transition:none}
+    .vb:active{transform:none}
+  }
 
   /* ===== strip ===== */
   .strip{display:flex; justify-content:center; gap:14px; flex-wrap:wrap; padding:0 0 64px}
@@ -323,15 +331,15 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-  /* ===== Live hero demo (v1.2 — tap works / maybe / can't yourself) ===== */
+  /* ===== Live hero demo (v1.2.1 — the story always plays like a mini film) ===== */
   (function () {
     const rows = [...document.querySelectorAll('#demo .vc')];
     const counts = rows.map(r => r.querySelector('.cnt'));
     const note = document.getElementById('pnote');
     const stamp = document.getElementById('stamp');
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const DAYS = ['Friday', 'Saturday', 'Thursday'];
     const base = [1, 1, 0];            // responses from "the group"
+    const story = [null, null, null];  // votes shown during the auto-played film
     const user = [null, null, null];   // your vote per day: 'y' | 'm' | 'n'
     let timers = [], userMode = false;
 
@@ -342,8 +350,9 @@
     function render() {
       rows.forEach((r, i) => {
         counts[i].textContent = base[i] + (user[i] ? 1 : 0);
+        const tint = userMode ? user[i] : story[i];
         r.classList.remove('y', 'm', 'n');
-        if (user[i]) r.classList.add(user[i]);
+        if (tint) r.classList.add(tint);
         r.querySelectorAll('.vb').forEach(b => {
           const on = user[i] !== null && b.classList.contains(user[i]);
           b.classList.toggle('on', on);
@@ -358,6 +367,7 @@
     }
     function resetStory() {
       base[0] = 1; base[1] = 1; base[2] = 0;
+      story[0] = story[1] = story[2] = null;
       user[0] = user[1] = user[2] = null;
       rows.forEach(r => r.classList.remove('best'));
       stamp.classList.remove('show');
@@ -368,9 +378,9 @@
       resetStory();
       const steps = [
         [600,  () => setNote('Dropped in the group chat…')],
-        [1500, () => { base[0] = 2; flash(0, 'y'); render(); setNote('Sanne can do Friday ✓'); }],
-        [3000, () => { base[1] = 2; flash(1, 'm'); render(); setNote('Jesse says maybe Saturday ~'); }],
-        [4400, () => { base[2] = 1; flash(2, 'n'); render(); setNote('Mila can’t do Thursday ✕'); }],
+        [1500, () => { base[0] = 2; story[0] = 'y'; flash(0, 'y'); render(); setNote('Sanne can do Friday ✓'); }],
+        [3000, () => { base[1] = 2; story[1] = 'm'; flash(1, 'm'); render(); setNote('Jesse says maybe Saturday ~'); }],
+        [4400, () => { base[2] = 1; story[2] = 'n'; flash(2, 'n'); render(); setNote('Mila can’t do Thursday ✕'); }],
         [5700, () => { base[0] = 4; render(); rows[0].classList.add('best'); setNote('Friday is winning 🏆'); }],
         [7000, () => { stamp.classList.add('show'); setNote('Pinned! Now you — tap ✓ ~ ✕ on each day 👇'); }],
         [10000, play],
@@ -381,6 +391,9 @@
       if (userMode) return;
       userMode = true;
       timers.forEach(clearTimeout);
+      rows.forEach(r => r.classList.remove('best'));
+      stamp.classList.remove('show');
+      render();
       setNote('Your turn — vote on every day 👇');
     }
     function maybeFinish() {
@@ -409,13 +422,7 @@
       });
     });
 
-    if (reduced) {
-      base[0] = 2; base[1] = 2; base[2] = 1;
-      render();
-      note.textContent = 'Tap works ✓ / maybe ~ / can’t ✕ on each day — try it';
-    } else {
-      play();
-    }
+    play();
   })();
 </script>
 </body>
