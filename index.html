@@ -350,11 +350,11 @@
     function render() {
       rows.forEach((r, i) => {
         counts[i].textContent = base[i] + (user[i] ? 1 : 0);
-        const tint = userMode ? user[i] : story[i];
+        const v = userMode ? user[i] : story[i];
         r.classList.remove('y', 'm', 'n');
-        if (tint) r.classList.add(tint);
+        if (v) r.classList.add(v);
         r.querySelectorAll('.vb').forEach(b => {
-          const on = user[i] !== null && b.classList.contains(user[i]);
+          const on = v !== null && b.classList.contains(v);
           b.classList.toggle('on', on);
           b.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
