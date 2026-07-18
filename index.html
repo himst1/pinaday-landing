@@ -87,22 +87,26 @@
   }
   .phone .ptitle{font-family:var(--display); font-weight:800; font-size:1.3rem; margin-bottom:4px}
   .phone .pnote{font-size:.78rem; color:var(--ink-soft); margin-bottom:14px}
-  .vc{display:flex; align-items:center; gap:10px; background:var(--card); border:2px solid var(--ink);
+  .vc{display:flex; align-items:center; gap:8px; background:var(--card); border:2px solid var(--ink);
     border-radius:16px; padding:10px; margin-bottom:9px; box-shadow:0 2px 0 rgba(27,22,16,.08)}
   .vc.y{background:var(--yes-soft)} .vc.m{background:var(--maybe-soft)} .vc.n{background:var(--no-soft)}
-  .chip{flex:0 0 auto; width:46px; text-align:center; background:var(--paper); border:2px solid var(--ink); border-radius:11px; padding:4px 0}
+  .chip{flex:0 0 auto; width:42px; text-align:center; background:var(--paper); border:2px solid var(--ink); border-radius:11px; padding:4px 0}
   .chip .d{display:block; font-size:.55rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--red)}
   .chip .n{display:block; font-family:var(--display); font-weight:800; font-size:1.1rem; line-height:1.1}
-  .vc .t{font-family:var(--display); font-weight:700; font-size:.9rem}
+  .vc .t{font-family:var(--display); font-weight:700; font-size:.85rem}
   .vc .s{font-size:.72rem; color:var(--ink-soft)}
-  .st{margin-left:auto; width:36px; height:36px; border-radius:11px; display:flex; align-items:center; justify-content:center;
-    font-weight:800; font-size:1rem; color:#fff; border:2px solid var(--ink); transition:background .25s, color .25s, border .25s}
-  .st.y{background:var(--yes)} .st.m{background:var(--maybe)} .st.n{background:var(--no)}
-  .st.e{background:var(--paper); color:#B7AB9B; border:2px dashed rgba(27,22,16,.35)}
-  .st.pop{animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+  .vbtns{margin-left:auto; display:flex; gap:4px; flex:0 0 auto}
+  .vb{width:29px; height:29px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    font-family:inherit; font-weight:800; font-size:.85rem; color:var(--ink); background:var(--paper);
+    border:2px solid rgba(27,22,16,.4); cursor:pointer; padding:0;
+    transition:background .2s, color .2s, border-color .2s, transform .12s}
+  .vb:active{transform:scale(.9)}
+  .vb.y.on{background:var(--yes); border-color:var(--ink); color:#fff}
+  .vb.m.on{background:var(--maybe); border-color:var(--ink); color:#fff}
+  .vb.n.on{background:var(--no); border-color:var(--ink); color:#fff}
+  .vb.flash{animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
   @keyframes pop{from{transform:scale(.25) rotate(-12deg)} to{transform:scale(1) rotate(0)}}
-  .vc{cursor:pointer; transition:background .35s, transform .12s; user-select:none}
-  .vc:active{transform:scale(.98)}
+  .vc{transition:background .35s; user-select:none}
   .vc.best{box-shadow:0 0 0 3px rgba(31,158,95,.4), 0 2px 0 rgba(27,22,16,.08)}
   .pnote{transition:opacity .25s}
   .pnote.fade{opacity:0}
@@ -209,20 +213,32 @@
         <span class="stamp" id="stamp">PINNED ✓</span>
         <div class="ptitle">Bowling night 🎳</div>
         <div class="pnote" id="pnote">Dropped in the group chat…</div>
-        <div class="vc" data-i="0" role="button" tabindex="0" aria-label="Friday evening — tap to vote">
+        <div class="vc" data-i="0">
           <span class="chip"><span class="d">Fri</span><span class="n">24</span></span>
           <span><span class="t">Friday evening</span><br><span class="s">19:30 · <span class="cnt">1</span> in so far</span></span>
-          <span class="st e">·</span>
+          <span class="vbtns" role="group" aria-label="Vote for Friday evening">
+            <button type="button" class="vb y" aria-label="Friday works for me" aria-pressed="false">✓</button>
+            <button type="button" class="vb m" aria-label="Friday maybe" aria-pressed="false">~</button>
+            <button type="button" class="vb n" aria-label="Friday doesn't work" aria-pressed="false">✕</button>
+          </span>
         </div>
-        <div class="vc" data-i="1" role="button" tabindex="0" aria-label="Saturday afternoon — tap to vote">
+        <div class="vc" data-i="1">
           <span class="chip"><span class="d">Sat</span><span class="n">25</span></span>
           <span><span class="t">Saturday afternoon</span><br><span class="s">16:00 · <span class="cnt">1</span> in so far</span></span>
-          <span class="st e">·</span>
+          <span class="vbtns" role="group" aria-label="Vote for Saturday afternoon">
+            <button type="button" class="vb y" aria-label="Saturday works for me" aria-pressed="false">✓</button>
+            <button type="button" class="vb m" aria-label="Saturday maybe" aria-pressed="false">~</button>
+            <button type="button" class="vb n" aria-label="Saturday doesn't work" aria-pressed="false">✕</button>
+          </span>
         </div>
-        <div class="vc" data-i="2" role="button" tabindex="0" aria-label="Thursday evening — tap to vote">
+        <div class="vc" data-i="2">
           <span class="chip"><span class="d">Thu</span><span class="n">30</span></span>
           <span><span class="t">Thursday evening</span><br><span class="s">20:00 · <span class="cnt">0</span> in so far</span></span>
-          <span class="st e">·</span>
+          <span class="vbtns" role="group" aria-label="Vote for Thursday evening">
+            <button type="button" class="vb y" aria-label="Thursday works for me" aria-pressed="false">✓</button>
+            <button type="button" class="vb m" aria-label="Thursday maybe" aria-pressed="false">~</button>
+            <button type="button" class="vb n" aria-label="Thursday doesn't work" aria-pressed="false">✕</button>
+          </span>
         </div>
       </div>
     </div>
@@ -298,52 +314,56 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-  /* ===== Live hero demo (v1.1) ===== */
+  /* ===== Live hero demo (v1.2 — tap works / maybe / can't yourself) ===== */
   (function () {
-    const cards = [...document.querySelectorAll('#demo .vc')];
-    const states = cards.map(c => c.querySelector('.st'));
-    const counts = cards.map(c => c.querySelector('.cnt'));
+    const rows = [...document.querySelectorAll('#demo .vc')];
+    const counts = rows.map(r => r.querySelector('.cnt'));
     const note = document.getElementById('pnote');
     const stamp = document.getElementById('stamp');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const DAYS = ['Friday', 'Saturday', 'Thursday'];
+    const base = [1, 1, 0];            // responses from "the group"
+    const user = [null, null, null];   // your vote per day: 'y' | 'm' | 'n'
     let timers = [], userMode = false;
 
     function setNote(html) {
       note.classList.add('fade');
       setTimeout(() => { note.innerHTML = html; note.classList.remove('fade'); }, 220);
     }
-    function setState(i, cls, icon) {
-      const st = states[i];
-      st.className = 'st ' + cls;
-      st.textContent = icon;
-      if (cls !== 'e') { st.classList.add('pop'); setTimeout(() => st.classList.remove('pop'), 500); }
-      cards[i].classList.remove('y', 'm', 'n');
-      if (cls === 'y') cards[i].classList.add('y');
-      if (cls === 'm') cards[i].classList.add('m');
-      if (cls === 'n') cards[i].classList.add('n');
+    function render() {
+      rows.forEach((r, i) => {
+        counts[i].textContent = base[i] + (user[i] ? 1 : 0);
+        r.classList.remove('y', 'm', 'n');
+        if (user[i]) r.classList.add(user[i]);
+        r.querySelectorAll('.vb').forEach(b => {
+          const on = user[i] !== null && b.classList.contains(user[i]);
+          b.classList.toggle('on', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      });
     }
-    function reset() {
-      [0, 1, 2].forEach(i => { setState(i, 'e', '·'); cards[i].classList.remove('best'); });
-      counts[0].textContent = '1'; counts[1].textContent = '1'; counts[2].textContent = '0';
+    function flash(i, cls) {
+      const b = rows[i].querySelector('.vb.' + cls);
+      b.classList.add('flash');
+      setTimeout(() => b.classList.remove('flash'), 600);
+    }
+    function resetStory() {
+      base[0] = 1; base[1] = 1; base[2] = 0;
+      user[0] = user[1] = user[2] = null;
+      rows.forEach(r => r.classList.remove('best'));
       stamp.classList.remove('show');
-    }
-    function finalState() {
-      setState(0, 'y', '✓'); setState(1, 'm', '~'); setState(2, 'n', '✕');
-      counts[0].textContent = '4'; counts[1].textContent = '2'; counts[2].textContent = '1';
-      cards[0].classList.add('best');
-      stamp.classList.add('show');
-      note.innerHTML = 'Sanne, Jesse &amp; Mila already voted — you haven’t 👀';
+      render();
     }
     function play() {
       if (userMode) return;
-      reset();
+      resetStory();
       const steps = [
         [600,  () => setNote('Dropped in the group chat…')],
-        [1500, () => { setState(0, 'y', '✓'); counts[0].textContent = '2'; setNote('Sanne can do Friday ✓'); }],
-        [3000, () => { setState(1, 'm', '~'); counts[1].textContent = '2'; setNote('Jesse says maybe Saturday ~'); }],
-        [4400, () => { setState(2, 'n', '✕'); counts[2].textContent = '1'; setNote('Mila can’t do Thursday ✕'); }],
-        [5700, () => { counts[0].textContent = '4'; cards[0].classList.add('best'); setNote('Friday is winning 🏆'); }],
-        [7000, () => { stamp.classList.add('show'); setNote('Pinned! Everyone gets the card 📌'); }],
+        [1500, () => { base[0] = 2; flash(0, 'y'); render(); setNote('Sanne can do Friday ✓'); }],
+        [3000, () => { base[1] = 2; flash(1, 'm'); render(); setNote('Jesse says maybe Saturday ~'); }],
+        [4400, () => { base[2] = 1; flash(2, 'n'); render(); setNote('Mila can’t do Thursday ✕'); }],
+        [5700, () => { base[0] = 4; render(); rows[0].classList.add('best'); setNote('Friday is winning 🏆'); }],
+        [7000, () => { stamp.classList.add('show'); setNote('Pinned! Now you — tap ✓ ~ ✕ on each day 👇'); }],
         [10000, play],
       ];
       timers = steps.map(([t, fn]) => setTimeout(fn, t));
@@ -352,24 +372,41 @@
       if (userMode) return;
       userMode = true;
       timers.forEach(clearTimeout);
-      stamp.classList.remove('show');
-      cards.forEach(c => c.classList.remove('best'));
-      setNote('Your turn — <a href="https://pinaday.app">now try the real thing →</a>');
+      setNote('Your turn — vote on every day 👇');
     }
-    const cycle = ['e', 'y', 'm', 'n'];
-    const icons = { e: '·', y: '✓', m: '~', n: '✕' };
-    cards.forEach((c, i) => {
-      const go = () => {
-        takeOver();
-        const cur = cycle.indexOf(states[i].className.split(' ')[1]) ?? 0;
-        const next = cycle[(cur + 1) % cycle.length];
-        setState(i, next, icons[next]);
-      };
-      c.addEventListener('click', go);
-      c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    function maybeFinish() {
+      if (!user.every(Boolean)) return;
+      let best = 0, bestScore = -1;
+      rows.forEach((r, i) => {
+        const score = base[i] + 1 + (user[i] === 'y' ? 0.5 : 0);
+        if (score > bestScore) { bestScore = score; best = i; }
+      });
+      rows[best].classList.add('best');
+      stamp.classList.add('show');
+      setNote('Pinned: ' + DAYS[best] + '! That’s all it takes — <a href="https://pinaday.app">now pin a real date →</a>');
+    }
+    rows.forEach((r, i) => {
+      r.querySelectorAll('.vb').forEach(b => {
+        b.addEventListener('click', () => {
+          takeOver();
+          const v = b.classList.contains('y') ? 'y' : b.classList.contains('m') ? 'm' : 'n';
+          user[i] = user[i] === v ? null : v;
+          if (user[i]) flash(i, v);
+          rows.forEach(x => x.classList.remove('best'));
+          stamp.classList.remove('show');
+          render();
+          maybeFinish();
+        });
+      });
     });
 
-    if (reduced) { finalState(); } else { play(); }
+    if (reduced) {
+      base[0] = 2; base[1] = 2; base[2] = 1;
+      render();
+      note.textContent = 'Tap works ✓ / maybe ~ / can’t ✕ on each day — try it';
+    } else {
+      play();
+    }
   })();
 </script>
 </body>
