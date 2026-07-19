@@ -155,6 +155,8 @@
   }
   .lc-cta{font-family:var(--display); font-weight:800; font-size:.82rem; color:var(--red); text-decoration:none; margin-top:8px}
   .lc-hint{font-size:.66rem; opacity:.45; margin-top:2px}
+  .lc-emoji{position:absolute; top:6px; right:2px; font-size:4.4rem; transform:rotate(14deg); opacity:.9; pointer-events:none}
+  .lc-emoji-s{position:absolute; bottom:70px; right:64px; font-size:1.7rem; transform:rotate(-18deg); opacity:.4; pointer-events:none}
   /* Reduced motion: the demo story still plays (state changes are content),
      but without scale/spring effects. */
   @media (prefers-reduced-motion: reduce){
@@ -286,6 +288,8 @@
           </span>
         </div>
         <div class="lockcard" id="lockcard" aria-hidden="true">
+          <span class="lc-emoji" aria-hidden="true">🎳</span>
+          <span class="lc-emoji-s" aria-hidden="true">🎳</span>
           <div class="lc-brand"><svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M13 2.5c3.6 0 6.5 2.9 6.5 6.5 0 4.9-6.5 14-6.5 14S6.5 13.9 6.5 9c0-3.6 2.9-6.5 6.5-6.5Z" fill="#FF4A2D" stroke="#FAF3E7" stroke-width="2"/><circle cx="13" cy="9" r="2.6" fill="#FAF3E7"/></svg> pin<i>a</i>day</div>
           <div class="lc-title">Bowling night 🎳</div>
           <div class="lc-date" id="lcdate">Friday 24 July · 19:30</div>
