@@ -128,6 +128,33 @@
   }
   .stamp.show{opacity:1; animation:stampIn .45s cubic-bezier(.2,1.6,.4,1)}
   @keyframes stampIn{from{opacity:0; transform:rotate(8deg) scale(2.4)} to{opacity:1; transform:rotate(8deg) scale(1)}}
+
+  /* locked share-card overlay inside the phone */
+  .lockcard{
+    position:absolute; inset:14px; z-index:5; overflow:hidden;
+    background:var(--ink); border-radius:24px; color:var(--paper);
+    padding:20px 18px; display:flex; flex-direction:column; justify-content:center; gap:7px;
+    opacity:0; pointer-events:none; transform:translateY(14px);
+    transition:opacity .35s ease, transform .35s cubic-bezier(.2,.9,.3,1);
+    cursor:pointer;
+  }
+  .lockcard::before{content:""; position:absolute; inset:0; background:radial-gradient(rgba(250,243,231,.09) 1.1px, transparent 1.1px); background-size:18px 18px}
+  .lockcard.show{opacity:1; pointer-events:auto; transform:none}
+  .lockcard>*{position:relative}
+  .lc-brand{display:flex; align-items:center; gap:6px; font-family:var(--display); font-weight:800; font-size:.85rem}
+  .lc-brand i{font-style:normal; color:var(--red)}
+  .lc-title{font-family:var(--display); font-weight:800; font-size:1.35rem; line-height:1.1; margin-top:6px}
+  .lc-date{font-family:var(--display); font-weight:800; font-size:1.02rem; color:#FFB49F}
+  .lc-badge{align-self:flex-start; background:var(--yes); border-radius:99px; padding:5px 12px; font-weight:800; font-size:.78rem; color:#fff; transform:rotate(-1.5deg); margin-top:4px}
+  .lc-names{font-size:.74rem; opacity:.7; margin-top:2px}
+  .lc-ics{
+    display:inline-flex; align-items:center; gap:7px; align-self:flex-start; margin-top:10px;
+    font-family:var(--display); font-weight:800; font-size:.85rem; color:var(--ink);
+    background:var(--paper); border-radius:12px; padding:9px 14px; text-decoration:none;
+    box-shadow:0 2px 0 rgba(0,0,0,.35);
+  }
+  .lc-cta{font-family:var(--display); font-weight:800; font-size:.82rem; color:var(--red); text-decoration:none; margin-top:8px}
+  .lc-hint{font-size:.66rem; opacity:.45; margin-top:2px}
   /* Reduced motion: the demo story still plays (state changes are content),
      but without scale/spring effects. */
   @media (prefers-reduced-motion: reduce){
@@ -135,6 +162,7 @@
     .stamp.show{animation:none}
     .rv{opacity:1; transform:none; transition:none}
     .vb:active{transform:none}
+    .lockcard{transition:opacity .01s; transform:none}
   }
 
   /* ===== strip ===== */
@@ -257,6 +285,16 @@
             <button type="button" class="vb n" aria-label="Thursday doesn't work" aria-pressed="false">✕</button>
           </span>
         </div>
+        <div class="lockcard" id="lockcard" aria-hidden="true">
+          <div class="lc-brand"><svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M13 2.5c3.6 0 6.5 2.9 6.5 6.5 0 4.9-6.5 14-6.5 14S6.5 13.9 6.5 9c0-3.6 2.9-6.5 6.5-6.5Z" fill="#FF4A2D" stroke="#FAF3E7" stroke-width="2"/><circle cx="13" cy="9" r="2.6" fill="#FAF3E7"/></svg> pin<i>a</i>day</div>
+          <div class="lc-title">Bowling night 🎳</div>
+          <div class="lc-date" id="lcdate">Friday 24 July · 19:30</div>
+          <span class="lc-badge" id="lcbadge">✓ 4 of 6 are in</span>
+          <div class="lc-names" id="lcnames">Sanne · Jesse · Mila · Daan</div>
+          <a class="lc-ics" id="lcics" download="bowling-night.ics" href="#">📅 Add to calendar (.ics)</a>
+          <a class="lc-cta" href="https://pinaday.app">Create your own pin →</a>
+          <div class="lc-hint">this card goes back into the chat · tap to close</div>
+        </div>
       </div>
     </div>
   </section>
@@ -332,17 +370,49 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-  /* ===== Live hero demo (v1.2.1 — the story always plays like a mini film) ===== */
+  /* ===== Live hero demo (v1.3 — film ends with the shared pin + .ics) ===== */
   (function () {
     const rows = [...document.querySelectorAll('#demo .vc')];
     const counts = rows.map(r => r.querySelector('.cnt'));
     const note = document.getElementById('pnote');
     const stamp = document.getElementById('stamp');
+    const lock = document.getElementById('lockcard');
+    const lcdate = document.getElementById('lcdate');
+    const lcbadge = document.getElementById('lcbadge');
+    const lcnames = document.getElementById('lcnames');
+    const lcics = document.getElementById('lcics');
     const DAYS = ['Friday', 'Saturday', 'Thursday'];
+    const DATES = ['Friday 24 July · 19:30', 'Saturday 25 July · 16:00', 'Thursday 30 July · 20:00'];
+    const DTSTART = ['20260724T193000', '20260725T160000', '20260730T200000'];
     const base = [1, 1, 0];            // responses from "the group"
     const story = [null, null, null];  // votes shown during the auto-played film
     const user = [null, null, null];   // your vote per day: 'y' | 'm' | 'n'
-    let timers = [], userMode = false;
+    let timers = [], userMode = false, finishTimer = null, icsUrl = null;
+
+    function icsFor(i) {
+      const ics = [
+        'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Pinaday//Demo//EN',
+        'BEGIN:VEVENT', 'UID:demo-' + i + '@pinaday.app',
+        'DTSTART:' + DTSTART[i], 'DURATION:PT2H',
+        'SUMMARY:Bowling night 🎳', 'DESCRIPTION:Pinned with Pinaday — pinaday.app',
+        'END:VEVENT', 'END:VCALENDAR',
+      ].join('\r\n');
+      if (icsUrl) URL.revokeObjectURL(icsUrl);
+      icsUrl = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+      return icsUrl;
+    }
+    function showLock(i, count, names) {
+      lcdate.textContent = DATES[i];
+      lcbadge.textContent = '✓ ' + count + ' of 6 are in';
+      lcnames.textContent = names;
+      lcics.href = icsFor(i);
+      lock.classList.add('show');
+      lock.setAttribute('aria-hidden', 'false');
+    }
+    function hideLock() {
+      lock.classList.remove('show');
+      lock.setAttribute('aria-hidden', 'true');
+    }
 
     function setNote(html) {
       note.classList.add('fade');
@@ -372,6 +442,7 @@
       user[0] = user[1] = user[2] = null;
       rows.forEach(r => r.classList.remove('best'));
       stamp.classList.remove('show');
+      hideLock();
       render();
     }
     function play() {
@@ -383,8 +454,10 @@
         [3000, () => { base[1] = 2; story[1] = 'm'; flash(1, 'm'); render(); setNote('Jesse says maybe Saturday ~'); }],
         [4400, () => { base[2] = 1; story[2] = 'n'; flash(2, 'n'); render(); setNote('Mila can’t do Thursday ✕'); }],
         [5700, () => { base[0] = 4; render(); rows[0].classList.add('best'); setNote('Friday is winning 🏆'); }],
-        [7000, () => { stamp.classList.add('show'); setNote('Pinned! Now you — tap ✓ ~ ✕ on each day 👇'); }],
-        [10000, play],
+        [7000, () => { stamp.classList.add('show'); setNote('The organizer pins Friday 📌'); }],
+        [8400, () => { showLock(0, 4, 'Sanne · Jesse · Mila · Daan'); setNote('The card goes back into the chat — calendar in one tap 📅'); }],
+        [13000, () => { userMode ? null : play(); }],
+        [12800, hideLock],
       ];
       timers = steps.map(([t, fn]) => setTimeout(fn, t));
     }
@@ -394,33 +467,46 @@
       timers.forEach(clearTimeout);
       rows.forEach(r => r.classList.remove('best'));
       stamp.classList.remove('show');
+      hideLock();
       render();
       setNote('Your turn — vote on every day 👇');
     }
     function maybeFinish() {
       if (!user.every(Boolean)) return;
-      let best = 0, bestScore = -1;
+      let best = 0, bestScore = -Infinity;
       rows.forEach((r, i) => {
-        const score = base[i] + 1 + (user[i] === 'y' ? 0.5 : 0);
+        const score = base[i] + (user[i] === 'y' ? 1.5 : user[i] === 'm' ? 0.5 : -1);
         if (score > bestScore) { bestScore = score; best = i; }
       });
       rows[best].classList.add('best');
       stamp.classList.add('show');
-      setNote('Pinned: ' + DAYS[best] + '! That’s all it takes — <a href="https://pinaday.app">now pin a real date →</a>');
+      setNote('Pinned: ' + DAYS[best] + '! Here’s the card for the chat 👇');
+      finishTimer = setTimeout(() => {
+        showLock(best, base[best] + (user[best] === 'n' ? 0 : 1), 'Sanne · Jesse · Mila · you');
+      }, 1300);
     }
     rows.forEach((r, i) => {
       r.querySelectorAll('.vb').forEach(b => {
         b.addEventListener('click', () => {
           takeOver();
+          clearTimeout(finishTimer);
           const v = b.classList.contains('y') ? 'y' : b.classList.contains('m') ? 'm' : 'n';
           user[i] = user[i] === v ? null : v;
           if (user[i]) flash(i, v);
           rows.forEach(x => x.classList.remove('best'));
           stamp.classList.remove('show');
+          hideLock();
           render();
           maybeFinish();
         });
       });
+    });
+    // Tapping the card (not its links) closes it — back to the poll.
+    lock.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      takeOver();
+      clearTimeout(finishTimer);
+      hideLock();
     });
 
     play();
