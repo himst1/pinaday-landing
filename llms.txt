@@ -1,6 +1,6 @@
 # Pinaday
 
-> Pinaday is a free, account-free group date scheduler ("Doodle alternative") built for the group chat. You create a "pin" with 2–6 date options in 30 seconds, drop one link in the chat, and everyone votes works / maybe / can't in about 5 seconds — no app install, no sign-up, no ads. When a date wins, you lock it and share a confirmation card; everyone adds it to their calendar in one tap. Polls auto-delete after 30 days and data is hosted in the EU (privacy-friendly, GDPR-minded).
+> Pinaday is a free, account-free group date scheduler ("Doodle alternative") built for the group chat. You create a "pin" with 1–6 date options in 30 seconds, drop one link in the chat, and everyone votes works / maybe / can't in about 5 seconds — no app install, no sign-up, no ads. You can also pick a single fixed date (an RSVP invite). When a date wins, you lock it and share a confirmation card; everyone adds it to their calendar in one tap, and the organizer can attach a confirmation (e.g. a reservation PDF). Afterwards you can split the bill in the same link: add who paid what and Pinaday computes who owes who in the fewest payments (you settle up in your own bank/Tikkie — Pinaday never touches the money). Polls auto-delete after 30 days and data is hosted in the EU (privacy-friendly, GDPR-minded).
 
 Key facts:
 - Product type: web app (works in any mobile or desktop browser)
@@ -31,3 +31,4 @@ Key facts:
 - Do participants need to install anything? No — the link opens in the browser and voting takes ~5 seconds on iPhone and Android.
 - How is it different from Doodle? No accounts, no ads, no apps; everything works through one link, built for the group chat on your phone.
 - What happens to the data? Pins expire automatically after 30 days; only people with the link can see them; hosted in the EU.
+- Can I split the costs? Yes — once a date is pinned, open "Split the costs", add who paid what, and Pinaday works out who owes who in the fewest payments. No accounts; you settle up in your own bank or Tikkie; Pinaday never touches the money.
