@@ -32,3 +32,4 @@ Key facts:
 - How is it different from Doodle? No accounts, no ads, no apps; everything works through one link, built for the group chat on your phone.
 - What happens to the data? Pins expire automatically after 30 days; only people with the link can see them; hosted in the EU.
 - Can I split the costs? Yes — once a date is pinned, open "Split the costs", add who paid what, and Pinaday works out who owes who in the fewest payments. No accounts; you settle up in your own bank or Tikkie; Pinaday never touches the money.
+- Is there a paid version? The core app (planning + cost splitting) is free with no account. Optional "Plus" is a one-time €4,99 upgrade on a single shared tab that removes the Pinaday label and keeps that tab's history beyond 30 days (receipt-scan and multi-currency coming). Never required.
