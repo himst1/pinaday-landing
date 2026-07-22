@@ -157,6 +157,35 @@
   .lc-hint{font-size:.66rem; opacity:.45; margin-top:2px}
   .lc-emoji{position:absolute; top:6px; right:2px; font-size:4.4rem; transform:rotate(14deg); opacity:.9; pointer-events:none}
   .lc-emoji-s{position:absolute; bottom:70px; right:64px; font-size:1.7rem; transform:rotate(-18deg); opacity:.4; pointer-events:none}
+
+  /* split-the-costs overlay inside the phone (light, matches the in-app panel) */
+  .splitcard{
+    position:absolute; inset:14px; z-index:6; overflow:hidden;
+    background:var(--card); border-radius:24px; color:var(--ink);
+    padding:16px 15px; display:flex; flex-direction:column; gap:8px; justify-content:center;
+    opacity:0; pointer-events:none; transform:translateY(14px);
+    transition:opacity .35s ease, transform .35s cubic-bezier(.2,.9,.3,1);
+  }
+  .splitcard.show{opacity:1; pointer-events:auto; transform:none}
+  .sc-head{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-bottom:2px}
+  .sc-title{font-family:var(--display); font-weight:800; font-size:1.12rem}
+  .sc-sub{font-size:.72rem; color:var(--ink-soft)}
+  .sc-exp{display:flex; align-items:center; gap:8px; background:var(--paper);
+    border:2px solid var(--ink); border-radius:13px; padding:8px 10px}
+  .sc-emoji{flex:0 0 auto; font-size:1.15rem}
+  .sc-meta{display:flex; flex-direction:column; line-height:1.15; min-width:0; flex:1 1 auto}
+  .sc-meta b{font-family:var(--display); font-weight:800; font-size:.86rem}
+  .sc-meta span{font-size:.7rem; color:var(--ink-soft)}
+  .sc-clip{flex:0 0 auto; font-size:.9rem; opacity:.8}
+  .sc-amt{flex:0 0 auto; font-family:var(--display); font-weight:800; font-size:.92rem; white-space:nowrap}
+  .sc-conv{color:var(--ink-soft); font-weight:700; font-size:.7rem}
+  .sc-you{display:flex; align-items:center; gap:8px; background:var(--yes-soft);
+    border:2px solid var(--ink); border-radius:13px; padding:9px 11px; margin-top:1px}
+  .sc-youtxt{font-family:var(--display); font-weight:700; font-size:.9rem}
+  .sc-youamt{margin-left:auto; font-family:var(--display); font-weight:800; font-size:1rem; color:var(--red-deep)}
+  .sc-pay{flex:0 0 auto; background:var(--ink); color:#fff; border-radius:9px;
+    padding:6px 12px; font-weight:800; font-size:.76rem}
+  .sc-foot{font-size:.66rem; color:var(--ink-soft); text-align:center; margin-top:2px}
   /* Reduced motion: the demo story still plays (state changes are content),
      but without scale/spring effects. */
   @media (prefers-reduced-motion: reduce){
@@ -165,6 +194,7 @@
     .rv{opacity:1; transform:none; transition:none}
     .vb:active{transform:none}
     .lockcard{transition:opacity .01s; transform:none}
+    .splitcard{transition:opacity .01s; transform:none}
   }
 
   /* ===== strip ===== */
@@ -299,12 +329,35 @@
           <a class="lc-cta" href="https://pinaday.app">Create your own pin →</a>
           <div class="lc-hint">this card goes back into the chat · tap to close</div>
         </div>
+        <div class="splitcard" id="splitcard" aria-hidden="true">
+          <div class="sc-head">
+            <span class="sc-title">💶 Split the costs</span>
+            <span class="sc-sub">Bowling night · 4 people</span>
+          </div>
+          <div class="sc-exp">
+            <span class="sc-emoji">🎳</span>
+            <span class="sc-meta"><b>Lane &amp; shoes</b><span>Sanne paid</span></span>
+            <span class="sc-clip" title="Receipt attached">🧾</span>
+            <span class="sc-amt">€48,00</span>
+          </div>
+          <div class="sc-exp">
+            <span class="sc-emoji">🍻</span>
+            <span class="sc-meta"><b>Drinks</b><span>Jesse paid · $36.00</span></span>
+            <span class="sc-amt"><span class="sc-conv">≈</span> €33,20</span>
+          </div>
+          <div class="sc-you">
+            <span class="sc-youtxt">You owe <b>Sanne</b></span>
+            <span class="sc-youamt">€12,80</span>
+            <span class="sc-pay">Pay</span>
+          </div>
+          <div class="sc-foot">Total €81,20 · ~€20,30 p.p. — settle up in your own Tikkie</div>
+        </div>
       </div>
     </div>
   </section>
 
   <div class="strip rv">
-    <span>🚫 No app</span><span>🙅 No account</span><span>🆓 Free</span><span>💶 Split the bill</span><span>🇪🇺 EU-hosted</span><span>🗑️ Auto-deletes in 30 days</span>
+    <span>🚫 No app</span><span>🙅 No account</span><span>🆓 Free</span><span>💶 Split the bill</span><span>💱 Any currency</span><span>🧾 Receipts</span><span>⏱ Autopilot</span><span>👥 Group tabs</span><span>🇪🇺 EU-hosted</span><span>🗑️ Auto-deletes in 30 days</span>
   </div>
 
   <section>
@@ -408,6 +461,7 @@
     const note = document.getElementById('pnote');
     const stamp = document.getElementById('stamp');
     const lock = document.getElementById('lockcard');
+    const split = document.getElementById('splitcard');
     const lcdate = document.getElementById('lcdate');
     const lcbadge = document.getElementById('lcbadge');
     const lcnames = document.getElementById('lcnames');
@@ -418,7 +472,7 @@
     const base = [1, 1, 0];            // responses from "the group"
     const story = [null, null, null];  // votes shown during the auto-played film
     const user = [null, null, null];   // your vote per day: 'y' | 'm' | 'n'
-    let timers = [], userMode = false, finishTimer = null, icsUrl = null;
+    let timers = [], userMode = false, finishTimer = null, splitTimer = null, icsUrl = null;
 
     function icsFor(i) {
       const ics = [
@@ -443,6 +497,15 @@
     function hideLock() {
       lock.classList.remove('show');
       lock.setAttribute('aria-hidden', 'true');
+    }
+    function showSplit() {
+      hideLock();
+      split.classList.add('show');
+      split.setAttribute('aria-hidden', 'false');
+    }
+    function hideSplit() {
+      split.classList.remove('show');
+      split.setAttribute('aria-hidden', 'true');
     }
 
     function setNote(html) {
@@ -474,6 +537,7 @@
       rows.forEach(r => r.classList.remove('best'));
       stamp.classList.remove('show');
       hideLock();
+      hideSplit();
       render();
     }
     function play() {
@@ -485,10 +549,11 @@
         [3000, () => { base[1] = 2; story[1] = 'm'; flash(1, 'm'); render(); setNote('Jesse says maybe Saturday ~'); }],
         [4400, () => { base[2] = 1; story[2] = 'n'; flash(2, 'n'); render(); setNote('Mila can’t do Thursday ✕'); }],
         [5700, () => { base[0] = 4; render(); rows[0].classList.add('best'); setNote('Friday is winning 🏆'); }],
-        [7000, () => { stamp.classList.add('show'); setNote('The organizer pins Friday 📌'); }],
+        [7000, () => { stamp.classList.add('show'); setNote('Pinned — by you, or by Autopilot at the deadline ⏱'); }],
         [8400, () => { showLock(0, 4, 'Sanne · Jesse · Mila · Daan'); setNote('The card goes back into the chat — calendar in one tap 📅'); }],
-        [13000, () => { userMode ? null : play(); }],
-        [12800, hideLock],
+        [11800, () => { showSplit(); setNote('Went out? Split the bill in the same link 💶'); }],
+        [16400, hideSplit],
+        [16700, () => { userMode ? null : play(); }],
       ];
       timers = steps.map(([t, fn]) => setTimeout(fn, t));
     }
@@ -499,6 +564,7 @@
       rows.forEach(r => r.classList.remove('best'));
       stamp.classList.remove('show');
       hideLock();
+      hideSplit();
       render();
       setNote('Your turn — vote on every day 👇');
     }
@@ -514,31 +580,37 @@
       setNote('Pinned: ' + DAYS[best] + '! Here’s the card for the chat 👇');
       finishTimer = setTimeout(() => {
         showLock(best, base[best] + (user[best] === 'n' ? 0 : 1), 'Sanne · Jesse · Mila · you');
+        splitTimer = setTimeout(() => {
+          showSplit();
+          setNote('Went out? Split the bill in the same link 💶');
+        }, 2600);
       }, 1300);
     }
     rows.forEach((r, i) => {
       r.querySelectorAll('.vb').forEach(b => {
         b.addEventListener('click', () => {
           takeOver();
-          clearTimeout(finishTimer);
+          clearTimeout(finishTimer); clearTimeout(splitTimer);
           const v = b.classList.contains('y') ? 'y' : b.classList.contains('m') ? 'm' : 'n';
           user[i] = user[i] === v ? null : v;
           if (user[i]) flash(i, v);
           rows.forEach(x => x.classList.remove('best'));
           stamp.classList.remove('show');
           hideLock();
+          hideSplit();
           render();
           maybeFinish();
         });
       });
     });
-    // Tapping the card (not its links) closes it — back to the poll.
-    lock.addEventListener('click', (e) => {
+    // Tapping either overlay card (not its links) closes it — back to the poll.
+    [lock, split].forEach(card => card.addEventListener('click', (e) => {
       if (e.target.closest('a')) return;
       takeOver();
-      clearTimeout(finishTimer);
+      clearTimeout(finishTimer); clearTimeout(splitTimer);
       hideLock();
-    });
+      hideSplit();
+    }));
 
     play();
   })();
