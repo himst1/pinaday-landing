@@ -1,35 +1,60 @@
 # Pinaday
 
-> Pinaday is a free, account-free group date scheduler ("Doodle alternative") built for the group chat. You create a "pin" with 1–6 date options in 30 seconds, drop one link in the chat, and everyone votes works / maybe / can't in about 5 seconds — no app install, no sign-up, no ads. You can also pick a single fixed date (an RSVP invite). When a date wins, you lock it and share a confirmation card; everyone adds it to their calendar in one tap, and the organizer can attach a confirmation (e.g. a reservation PDF). Afterwards you can split the bill in the same link: add who paid what and Pinaday computes who owes who in the fewest payments (you settle up in your own bank/Tikkie — Pinaday never touches the money). Polls auto-delete after 30 days and data is hosted in the EU (privacy-friendly, GDPR-minded).
+> Pinaday is a free, account-free web app that does two things for a group in one link: (1) pick a date — create a "pin" with 2–6 date options (or one fixed date), drop the link in the group chat, and everyone votes works / maybe / can't in about 5 seconds; and (2) split the bill afterwards — add who paid what and Pinaday works out who owes who in the fewest payments. No app install, no sign-up, no ads. Data is hosted in the EU and date polls auto-delete after 30 days. The app runs at pinaday.app; this landing page (pinaday.com) is the product overview.
 
 Key facts:
-- Product type: web app (works in any mobile or desktop browser)
-- Price: free
-- Accounts required: none (neither for creating nor voting)
-- Best for: friend groups, teams, families planning dinners, outings, meetings, parties, sports nights
-- Positioning: simpler alternative to Doodle, When2meet and LettuceMeet, designed mobile-first for group chats (WhatsApp, iMessage, Signal, Telegram)
-- Data: polls expire automatically after 30 days; EU-hosted
+- Product type: web app (works in any mobile or desktop browser; no install)
+- Price: free. One optional one-time upgrade, "Plus", costs €4,99 per shared tab (keeps the tab beyond 30 days, removes the Pinaday label, and unlocks multi-currency). Voters never hit a paywall.
+- Accounts required: none — not for creating, voting, or splitting. The privacy model is "unguessable link = access".
+- Two jobs in one tool: group date scheduling AND shared-cost splitting.
+- Positioning: a simpler, mobile-first alternative to Doodle, When2meet and LettuceMeet for scheduling; and a no-account alternative to Splitwise for bill splitting.
+- Money: Pinaday only calculates who owes who — it never holds or moves money. People settle up in their own bank, Tikkie or PayPal via payment links.
+- Data & privacy: EU-hosted; date polls expire automatically after 30 days; only people with the link can see a pin or a tab; no ads, no account, no profile to sell.
+
+## What it does
+
+- Date polls: 2–6 options with optional times, or one fixed date (RSVP). Live vote counts. Organizer locks the winning date.
+- Share card: a confirmation image for WhatsApp/stories, plus a one-tap calendar file (.ics) for Google, Apple or Outlook.
+- Attachments: the organizer can attach a confirmation (e.g. a reservation PDF) to a pinned date.
+- Split the costs: add expenses (who paid, for what, split over whom), see per-person balances, and settle up in the fewest payments. Attach a receipt photo to any expense. Add your payment link (Tikkie/iDEAL/PayPal) so others pay you in a tap. Export the whole tab as CSV.
+- Multi-currency (Plus): log expenses in 10 currencies, auto-converted to euro at daily ECB reference rates.
+- Shared tabs / groups: keep an ongoing shared tab for money only (no date), e.g. a household or a trip — it doesn't expire like a poll.
 
 ## Main pages
 
-- [Create a pin (the app)](https://pinaday.app): create a date poll in 30 seconds
-- [Landing page](https://pinaday.com/): product overview, how it works, FAQ
+- [Create a pin (the app)](https://pinaday.app): create a date poll in ~30 seconds
+- [Start a shared tab](https://pinaday.app/g/new): split costs with a group, no date, no account
+- [Product overview (this site)](https://pinaday.com/): how it works, FAQ
 
-## Use-case guides (on the app domain)
+## Comparisons
 
-- [Doodle alternative](https://pinaday.app/doodle-alternative): why groups switch from Doodle to Pinaday
-- [Plan a dinner](https://pinaday.app/plan-a-dinner)
+- [Pinaday vs Doodle](https://pinaday.app/pinaday-vs-doodle): honest side-by-side, including when Doodle is the better pick
+- [Doodle alternative](https://pinaday.app/doodle-alternative): why groups switch from Doodle
+- [When2meet alternative](https://pinaday.app/when2meet-alternative): simpler on a phone, no availability grid
+- [Splitwise alternative](https://pinaday.app/splitwise-alternative): split the bill without an account or app
+
+## Scheduling use-cases
+
+- [Plan a dinner with friends](https://pinaday.app/plan-a-dinner)
 - [Plan a team outing](https://pinaday.app/plan-a-team-outing)
 - [Schedule a meeting](https://pinaday.app/schedule-a-meeting)
 - [Plan a bachelor party](https://pinaday.app/plan-a-bachelor-party)
-- [Schedule team training](https://pinaday.app/schedule-team-training)
-- [Plan a birthday](https://pinaday.app/plan-a-birthday)
+- [Schedule sports training](https://pinaday.app/schedule-team-training)
+- [Plan a birthday party](https://pinaday.app/plan-a-birthday)
+- [Plan a reunion](https://pinaday.app/plan-a-reunion)
+- [Plan a weekend away](https://pinaday.app/plan-a-weekend-away)
+
+## Bill-splitting use-cases
+
+- [Split the bill with friends](https://pinaday.app/split-the-bill)
+- [Split costs on a group trip](https://pinaday.app/split-costs-group-trip)
+- [Split rent with roommates](https://pinaday.app/split-rent-with-roommates)
 
 ## FAQ
 
-- Is Pinaday free? Yes — creating, voting and sharing are free, without ads, and you never need an account.
-- Do participants need to install anything? No — the link opens in the browser and voting takes ~5 seconds on iPhone and Android.
-- How is it different from Doodle? No accounts, no ads, no apps; everything works through one link, built for the group chat on your phone.
-- What happens to the data? Pins expire automatically after 30 days; only people with the link can see them; hosted in the EU.
-- Can I split the costs? Yes — once a date is pinned, open "Split the costs", add who paid what, and Pinaday works out who owes who in the fewest payments. No accounts; you settle up in your own bank or Tikkie; Pinaday never touches the money.
-- Is there a paid version? The core app (planning + cost splitting) is free with no account. Optional "Plus" is a one-time €4,99 upgrade on a single shared tab that removes the Pinaday label and keeps that tab's history beyond 30 days (receipt-scan and multi-currency coming). Never required.
+- Is Pinaday free? Yes — creating pins, voting, sharing and splitting the bill are free, with no ads and no account. One optional €4,99 one-time upgrade per tab (Plus) adds multi-currency, removes the label and keeps the tab forever.
+- Do participants need to install or sign up for anything? No. Everything works through one link in the browser — voting takes ~5 seconds on iPhone and Android alike; splitting needs no account either.
+- How is it different from Doodle or When2meet? No accounts, no ads, no apps, and it also splits the bill afterwards. Everything works through one link built for the group chat on your phone.
+- How is it different from Splitwise? No accounts and no app — one shared link. Pinaday computes the minimal set of payments to settle up; you pay each other directly. Pinaday never holds the money.
+- Can it handle different currencies? Yes, with the optional Plus upgrade: log expenses in any of ten currencies, auto-converted to euro at daily reference rates. Splitting in euro is free.
+- What happens to the data? Date polls expire automatically after 30 days; shared money tabs persist until you're done (kept forever with Plus). Only people with the link can see them, and everything is hosted in the EU.
